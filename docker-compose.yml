@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./annotation-frontend   
+      dockerfile: Dockerfile 
+    ports:
+      - "80:80"             
+  backend:
+    build:
+      context: ./annotation-backend    
+      dockerfile: Dockerfile 
+    ports:
+      - "8000:8000"         

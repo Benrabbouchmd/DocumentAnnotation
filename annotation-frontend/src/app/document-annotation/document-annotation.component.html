@@ -1,0 +1,116 @@
+<style>
+  .container {
+    display: flex;
+    flex-grow: 0;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+
+  .container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .container input,
+  .container button {
+    margin-bottom: 20px;
+  }
+
+  .label-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .label-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .labels-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  .label-buttons button.selected {
+    background-color: #28a745;
+  }
+  .button {
+    align-self: center;
+    width: 140px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .input {
+    padding: 10px;
+    margin-right: 30px;
+  }
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+  .margin {
+    margin-top: 30px;
+  }
+  .highlighted {
+    background-color: #28a745;
+    color: white;
+  }
+  .annotation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 400px;
+  }
+</style>
+
+<div class="container">
+  <label for="labels">Enter Labels (comma-separated):</label>
+  <div class="labels-container">
+    <input
+      type="text"
+      id="labels"
+      class="input"
+      [(ngModel)]="labelsInput"
+      (keyup.enter)="addLabels()"
+    />
+
+    <button (click)="addLabels()" class="button">Add Labels</button>
+  </div>
+
+  <label for="selectLabel">Select a Label:</label>
+  <div class="label-buttons">
+    <button
+      *ngFor="let label of labels"
+      (click)="onLabelSelected(label)"
+      [class.selected]="label === selectedLabel"
+      mat-button
+      [style.background-color]="labelColors[label]"
+    >
+      {{ label }}
+    </button>
+  </div>
+  <div class="annotation">
+    <div (mouseup)="annotateText()">
+      <span [innerHtml]="getHighlightedText()"></span>
+    </div>
+
+    <button (click)="exportAnnotations()" class="button margin">
+      Export Annotations
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>
